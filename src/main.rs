@@ -6,6 +6,8 @@ extern crate gtk;
 use gtk::prelude::*;
 use gtk::{Label, Window, WindowType};
 
+extern crate regex;
+
 pub mod backend;
 
 mod tools;

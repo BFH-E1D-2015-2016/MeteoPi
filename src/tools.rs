@@ -5,6 +5,6 @@ pub enum TemperatureUnits {
 
 pub struct Temperature {
     pub digit: i16,
-    pub milli: i16,
+    pub milli: u16,
     pub unit: TemperatureUnits,
 }
