@@ -16,7 +16,7 @@ pub struct RpiProvider;
 impl Provider for RpiProvider {
     fn get_temperature(&self) -> Option<Temperature> {
         trace!("RpiProvider.get_temperature: Calling `vcgencmd measure_temp`");
-        if let Ok(raw) = Command::new("vcgenmod")
+        if let Ok(raw) = Command::new("vcgencmd")
             .args(&["measure_temp"])
             .output() {
 
