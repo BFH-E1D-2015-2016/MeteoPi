@@ -1,0 +1,13 @@
+[package]
+name = "meteo"
+version = "0.1.0"
+authors = ["Samuel Dolt <samuel@dolt.ch>"]
+
+[dependencies]
+
+
+[dependencies.gtk]
+version = "0.1.1"
+features = ["v3_10"]
+
+[features]
