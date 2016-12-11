@@ -23,8 +23,8 @@ impl Provider for RpiProvider {
             if raw.status.success() {
                 trace!("RpiProvider.get_temperature: `vcgencmd` exited sucessfully");
 
-                // Example of output : "temp=56.9'C" or "temp=56.0'C"
-                let re = Regex::new(r"^temp=(\d)+\.(\d)'C$").unwrap();
+                // Example of output : "temp=56.9'C\n" or "temp=56.0'C\n"
+                let re = Regex::new(r"^temp=(\d)+\.(\d)'C").unwrap();
                 let output = ::std::str::from_utf8(&raw.stdout).unwrap();
                 if let Some(cap) = re.captures(output) {
                     trace!("RpiProvider.get_temperature: Parsing `{}`", output);
