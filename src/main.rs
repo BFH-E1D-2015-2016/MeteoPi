@@ -39,7 +39,7 @@ fn main() {
         Inhibit(false)
     });
 
-    let data = providers[0].get_temperature().expect("Unable to get a temperature");
+    let data = providers.last().unwrap().get_temperature().expect("Unable to get a temperature");
     let label_str = format!("Temp: {}.{} °C", data.digit, data.milli);
 
     let label = Label::new(Some(&label_str));
