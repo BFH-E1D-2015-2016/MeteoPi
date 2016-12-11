@@ -28,22 +28,16 @@ impl Provider for RpiProvider {
                 let output = ::std::str::from_utf8(&raw.stdout).unwrap();
                 if let Some(cap) = re.captures(output) {
                     trace!("RpiProvider.get_temperature: Parsing `{}`", output);
-                    Some(Temperature {
+                    return Some(Temperature {
                         digit: cap.at(1).unwrap().parse::<i16>().unwrap(),
                         milli: cap.at(2).unwrap().parse::<u16>().unwrap() * 100,
                         unit: TemperatureUnits::Celsius,
-                    })
+                    });
 
-                } else {
-                    None
                 }
-            } else {
-                None
             }
-
-        } else {
-            None
         }
+        None
     }
 }
 
