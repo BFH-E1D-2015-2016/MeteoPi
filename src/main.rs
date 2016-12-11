@@ -1,5 +1,8 @@
-extern crate gtk;
+#[macro_use]
+extern crate log;
+extern crate env_logger;
 
+extern crate gtk;
 use gtk::prelude::*;
 use gtk::{Label, Window, WindowType};
 
@@ -11,13 +14,21 @@ pub use tools::TemperatureUnits;
 
 mod provider;
 pub use provider::Provider;
+pub use provider::ProviderLoader;
 
 
 fn main() {
 
+    // Init the log system
+    env_logger::init().expect("Failed to initialize the log system");
+    info!("Application started");
+
+    // Init the graphical stack
     gtk::init().expect("Failed to initialize GTK.");
+    info!("Gui backend initialized");
 
     let providers = backend::backend_loader();
+    info!("All backends loaded");
 
     let window = Window::new(WindowType::Toplevel);
     window.set_title("Météo");
@@ -37,5 +48,6 @@ fn main() {
     window.show_all();
 
     gtk::main();
+    info!("Application is shutting down");
 
 }
