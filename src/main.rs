@@ -1,6 +1,11 @@
 #[macro_use]
-extern crate log;
-extern crate env_logger;
+extern crate lazy_static;
+
+#[macro_use]
+extern crate slog;
+extern crate slog_term;
+
+use slog::DrainExt;
 
 extern crate gtk;
 use gtk::prelude::*;
@@ -18,19 +23,25 @@ mod provider;
 pub use provider::Provider;
 pub use provider::ProviderLoader;
 
+// Log system is initialized before main
+lazy_static! {
+    pub static ref MAIN_LOGGER: slog::Logger = {
+        let drain = slog_term::streamer().full().build().fuse();
+        slog::Logger::root(drain, o!("place" => move |info: &slog::Record| {
+            format!("{}:{} {}", info.file(), info.line(), info.module())
+        }))
+    };
+}
 
 fn main() {
-
-    // Init the log system
-    env_logger::init().expect("Failed to initialize the log system");
-    info!("Application started");
+    info!(MAIN_LOGGER, "Application started");
 
     // Init the graphical stack
     gtk::init().expect("Failed to initialize GTK.");
-    info!("Gui backend initialized");
+    info!(MAIN_LOGGER, "Gui backend initialized");
 
     let providers = backend::backend_loader();
-    info!("All backends loaded");
+    info!(MAIN_LOGGER, "All backends loaded");
 
     let window = Window::new(WindowType::Toplevel);
     window.set_title("Météo");
@@ -50,6 +61,6 @@ fn main() {
     window.show_all();
 
     gtk::main();
-    info!("Application is shutting down");
+    info!(MAIN_LOGGER, "Application is shutting down");
 
 }
