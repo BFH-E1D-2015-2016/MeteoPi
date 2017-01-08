@@ -13,6 +13,9 @@ use gtk::{Label, Window, WindowType};
 
 extern crate regex;
 
+extern crate rustc_serialize;
+extern crate docopt;
+
 pub mod backend;
 
 mod tools;
@@ -22,6 +25,8 @@ pub use tools::TemperatureUnits;
 mod provider;
 pub use provider::Provider;
 pub use provider::ProviderLoader;
+
+pub mod plugins;
 
 // Log system is initialized before main
 lazy_static! {
